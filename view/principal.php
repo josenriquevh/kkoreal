@@ -93,7 +93,7 @@ function clickBoton(id_form, url){
                             <a href="#" onclick="cargaContent('administrarEmpleados.php','','contenido');"><i class="fa fa-list-alt fa-fw"></i> Empleados</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-calendar-o fa-fw"></i> Horas Trabajadas</a>
+                            <a href="#" onclick="cargaContent('generarReporte.php','','contenido');"><i class="fa fa-calendar-o fa-fw"></i> Horas Trabajadas</a>
                         </li>
                     </ul>
                 </div>

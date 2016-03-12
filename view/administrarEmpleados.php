@@ -55,7 +55,7 @@ $(document).ready(function() {
 <?php
 require_once("../db/conexiones.php");
 $consulta = new Conexion();
-$datosEmpleados=$consulta->Conectar("postgres","SELECT * FROM userinfo ORDER BY userid ASC");
+$datosEmpleados=$consulta->Conectar("postgres","SELECT userinfo.*, dept.deptname FROM userinfo INNER JOIN dept ON userinfo.deptid=dept.deptid ORDER BY userinfo.userid ASC");
 $ultimoRefresh = $consulta->Conectar("postgres","SELECT * FROM refrescamiento WHERE tabla='userinfo' ORDER BY fecha DESC LIMIT 1");
 ?>
 <div class="row">
@@ -81,6 +81,7 @@ $ultimoRefresh = $consulta->Conectar("postgres","SELECT * FROM refrescamiento WH
                                 <th>#</th>
                                 <th>Empleado</th>
                                 <th>Cargo</th>
+                                <th>Departamento</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,6 +90,7 @@ $ultimoRefresh = $consulta->Conectar("postgres","SELECT * FROM refrescamiento WH
                                 <td><?php echo $empleados["userid"];?></td>
                                 <td><?php echo $empleados["name"];?></td>
                                 <td><?php echo $empleados["duty"];?></td>
+                                <td><?php echo ucfirst(strtolower($empleados["deptname"]));?></td>
                             </tr>
                             <?php } ?>                           
                         </tbody>

@@ -78,6 +78,7 @@ $diasFeriados = $consulta->Conectar("postgres","SELECT * FROM feriado ORDER BY f
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Descripción</th>
                                 <th>Desde</th>
                                 <th>Hasta</th>
                                 <th></th>
@@ -87,6 +88,7 @@ $diasFeriados = $consulta->Conectar("postgres","SELECT * FROM feriado ORDER BY f
                             <?php foreach($diasFeriados as $feriados){?>
                             <tr class="odd gradeX">
                                 <td><?php echo $feriados["id"];?></td>
+                                <td><?php echo $feriados["descripcion"];?></td>
                                 <td><?php echo $feriados["desde"];?></td>
                                 <td><?php echo $feriados["hasta"];?></td>
                                 <td><a href="#" onclick="cargaContent('crearDiasFeriados.php?id=<?php echo $feriados['id']?>','','contenido');"><button type="button" class="btn btn-outline btn-primary btn-xs">Editar</button></a>&nbsp;&nbsp;<a href="#" onclick="cargaContent('crearDiasFeriados.php?id=<?php echo $feriados['id']?>','','contenido');"><button type="button" class="btn btn-outline btn-primary btn-xs">Eliminar</button></a></td>

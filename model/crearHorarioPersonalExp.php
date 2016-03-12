@@ -11,17 +11,12 @@ class CrearHorarioPersonal
  	
  	function insertarHorarioPersonal($array)
  	{
- 		$iduser = $array['userid'];
+ 		$iduser = $array['nombre'];
 		$banda= $array['bandaHorario'];
-		$sqlInsert = $this->invoco->Conectar("postgres","INSERT INTO horario_personal (user_id, banda_id) VALUES (".$iduser.",".$banda.")");
+		$time = time();
+		$fecha = date("Y-m-d", $time);
+		$sqlInsert = $this->invoco->Conectar("postgres","INSERT INTO horario_personal (user_id, banda_id, fecha) VALUES (".$iduser.",".$banda.", '".$fecha."')");
 		return 'Se Insertaron los datos Exitosamente!';
 	}
-
-	function modificarHorarioPersonal($array)
- 	{
- 		$iduser = $array['userid'];
-		$banda= $array['bandaHorario'];
-		$sqlUpdate = $this->invoco->Conectar("postgres","UPDATE horario_personal SET banda_id=".$banda." WHERE user_id=".$iduser);
-		return 'Se Modificaron los datos Exitosamente!';
-	}
+	
 }?>

@@ -16,6 +16,9 @@ $(document).ready(function(){
             },
             'fechaHasta': {
                 required: true,
+            },
+            'descripcion':{
+                required: true,
             }
         },
         messages: {
@@ -24,6 +27,9 @@ $(document).ready(function(){
             },
             'fechaHasta': {
                 required: "La fecha hasta es requerida",
+            },
+            'descripcion':{
+                required: "La descripción es requerida",
             }
         },
         submitHandler: function(form){
@@ -41,13 +47,6 @@ $(document).ready(function(){
             });
         }
     });
-});
-</script>
-<script type="text/javascript">
-$('.timepickr').timepickr({
-convention: 12,
-format: '{h}:{m} {suffix}',
-hoverIntent: false
 });
 </script>
 <?php
@@ -75,6 +74,10 @@ if($_GET['id']!==0)
                     <div class="col-lg-12">
                         <form id="form" name="form" action="../controller/crearDiasFeriadosAction.php" role="form" method="post">
                             <input type="hidden" id="id" name="id" class="form-control" value="<?php echo $_GET['id']; ?>">
+                            <div class="form-group">
+                                <label>Descripción:</label>
+                                <input id="descripcion" name="descripcion" class="form-control" placeholder="Ingrese la Descripcion" value="<?php echo $de=isset($feriado[0]['descripcion'])? $feriado[0]['descripcion'] : ''; ?>" style="width:250px">
+                            </div>
                             <div class="form-group">
                                 <label>Fecha Desde:</label>
                                 <input id="fechaDesde" name="fechaDesde" class="form-control" placeholder="Ingrese la Fecha Desde" value="<?php echo $he=isset($feriado[0]['desde'])? $feriado[0]['desde'] : ''; ?>" style="width:250px">

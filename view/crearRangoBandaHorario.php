@@ -11,9 +11,6 @@
 $(document).ready(function(){
     $("#form").validate({
         rules: {
-            'horaDesde': {
-                required: true,
-            },
             'horaHasta': {
                 required: true,
             },
@@ -22,9 +19,6 @@ $(document).ready(function(){
             }
         },
         messages: {
-            'horaDesde': {
-                required: "La Hora Desde es requerida",
-            },
             'horaHasta': {
                 required: "La Hora Hasta es requerida",
             },
@@ -51,8 +45,8 @@ $(document).ready(function(){
 </script>
 <script type="text/javascript">
 $('.timepickr').timepickr({
-convention: 12,
-format: '{h}:{m} {suffix}',
+convention: 24,
+format: '{h}:{m}',
 hoverIntent: false
 });
 </script>
@@ -83,7 +77,7 @@ if($_GET['idRango']!==0)
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Nuevo Rango
+                Datos del Rango
             </div>
             <div class="panel-body">
                 <div class="row">

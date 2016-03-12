@@ -13,7 +13,8 @@ class CrearDiasFeriados
  	{
 		$fechaDesde = $array['fechaDesde'];
 		$fechaHasta = $array['fechaHasta'];
-		$sqlInsert = $this->invoco->Conectar("postgres","INSERT INTO feriado (desde, hasta) VALUES ('".$fechaDesde."','".$fechaHasta."') RETURNING id");
+		$descripcion = $array['descripcion'];
+		$sqlInsert = $this->invoco->Conectar("postgres","INSERT INTO feriado (desde, hasta, descripcion) VALUES ('".$fechaDesde."','".$fechaHasta."','".$descripcion."') RETURNING id");
 		return 'Se Insertaron los datos Exitosamente!';
 	}
 
@@ -22,7 +23,8 @@ class CrearDiasFeriados
  		$id = $array['id'];
 		$fechaDesde = $array['fechaDesde'];
 		$fechaHasta = $array['fechaHasta'];
-		$sqlUpdate = $this->invoco->Conectar("postgres","UPDATE feriado SET desde='".$fechaDesde."', hasta='".$fechaHasta."' WHERE id=".$id);
+		$descripcion = $array['descripcion'];
+		$sqlUpdate = $this->invoco->Conectar("postgres","UPDATE feriado SET desde='".$fechaDesde."', hasta='".$fechaHasta."', descripcion='".$descripcion."' WHERE id=".$id);
 		return 'Se Modificaron los datos Exitosamente!';
 	}
 }?>

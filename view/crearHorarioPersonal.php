@@ -3,15 +3,48 @@
 <script src="../complements/validate/js/jquery.validate.js"></script>
 <script src="../complements/validate/js/additional-methods.js"></script>
 <script src="../complements/validate/js/messages_es.js"></script>
+<link rel="stylesheet" href="../complements/validate/css/estiloError.css"/>
+  <!--<link rel="stylesheet" href="../complements/chosen_v1.5.1/docsupport/style.css">-->
+  <link rel="stylesheet" href="../complements/chosen_v1.5.1/docsupport/prism.css">
+  <link rel="stylesheet" href="../complements/chosen_v1.5.1/chosen.css">
+  <style type="text/css" media="all">
+    /* fix rtl for demo */
+    .chosen-rtl .chosen-drop { left: -9000px; }
+  </style>
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>-->
+  <script src="../complements/chosen_v1.5.1/chosen.jquery.js" type="text/javascript"></script>
+  <script src="../complements/chosen_v1.5.1/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
 <script type="text/javascript">
 $(document).ready(function(){
+    $.validator.setDefaults({ ignore: ":hidden:not(select)" });
     $("#form").validate({
+        invalidHandler: function() {
+            validateForm = true;
+        },
         rules: {
+            'nombre': {
+                required: true,
+            },
             'bandaHorario': {
                 required: true,
             }
         },
         messages: {
+            'nombre': {
+                required: "El Nombre es requerido.",
+            },
             'bandaHorario': {
                 required: "La Banda de Horario es requerida",
             }
@@ -24,7 +57,7 @@ $(document).ready(function(){
                 success: function(data){
                     alert(data);
                     setTimeout( function(){
-                        $('#contenido').load("horarioPersonal.php");
+                        $('#contenido').load("opcionesHorarioPorPersonal.php");
                     }, 1000);
                 }
             });
@@ -33,12 +66,10 @@ $(document).ready(function(){
 });
 </script>
 <?php
-error_reporting(0);
 require_once("../db/conexiones.php");
 $consulta = new Conexion();
-$empleado = $consulta->Conectar("postgres","SELECT * FROM userinfo WHERE userid=".$_REQUEST['id']);
+$datosEmpleados = $consulta->Conectar("postgres","SELECT * FROM userinfo ORDER BY userid ASC");
 $datosBanda = $consulta->Conectar("postgres","SELECT banda.*, tipo_horario.nombre FROM banda INNER JOIN tipo_horario ON banda.tipo_horario_id=tipo_horario.id ORDER BY banda.id");
-$horarioPersonal = $consulta->Conectar("postgres","SELECT horario_Personal.*, userinfo.name FROM horario_Personal INNER JOIN userinfo ON horario_Personal.user_id=userinfo.userid WHERE horario_Personal.user_id=".$_REQUEST['id']);
 ?>
 <div class="row">
     <div class="col-lg-12">
@@ -56,35 +87,28 @@ $horarioPersonal = $consulta->Conectar("postgres","SELECT horario_Personal.*, us
                 <div class="row">
                     <div class="col-lg-12">
                         <form id="form" name="form" action="../controller/crearHorarioPersonalAction.php" role="form" method="post">
-                            <input type="hidden" id="horarioPersonal" name="horarioPersonal" value="<?php echo count($horarioPersonal[0]['id']);?>">
-                            <input type="hidden" id="userid" name="userid" value="<?php echo $_REQUEST['id'];?>">
                             <div class="form-group">
-                                <label>Empleado:</label>
-                                <?php echo $empleado[0]['name'];?>
+                                <label>Empleado:</label><br>
+                                <select id="nombre" name="nombre" class="chosen-select form-control" style="width:250px">
+                                    <option value="">Seleccione un Empleado</option>
+                                    <?php foreach ($datosEmpleados as $key => $value) {
+                                        echo '<option value="'.$value['userid'].'">'.$value['name'].'</option>';
+                                    } ?>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label>Banda de Horario:</label>
                                 <select id="bandaHorario" name="bandaHorario" class="form-control" style="width:250px">
                                     <option value="">Seleccione una opción</option>
                                     <?php
-                                    if($horarioPersonal){
-                                        foreach ($datosBanda as $key => $value) {
-                                            if($horarioPersonal[0]['banda_id']==$value['id']){
-                                                echo '<option value="'.$value['id'].'" selected="selected">'.$value['nombre'].': '.$value['hora_entrada'].' - '.$value['hora_salida'].'</option>';
-                                            }else{
-                                                echo '<option value="'.$value['id'].'">'.$value['nombre'].': '.$value['hora_entrada'].' - '.$value['hora_salida'].'</option>';
-                                            }
-                                        }
-                                    }else{
                                         foreach ($datosBanda as $key => $value) {
                                             echo '<option value="'.$value['id'].'">'.$value['nombre'].': '.$value['hora_entrada'].' - '.$value['hora_salida'].'</option>';
                                         }
-                                    }
                                     ?>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-default" onclick="">Guardar</button>
-                            <button type="button" class="btn btn-default" onclick="cargaContent('horarioPersonal.php','','contenido');">Volver</button>
+                            <button type="button" class="btn btn-default" onclick="cargaContent('opcionesHorarioPorPersonal.php','','contenido');">Volver</button>
                         </form>
                     </div>
                     <!-- /.col-lg-6 (nested) -->

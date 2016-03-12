@@ -50,7 +50,7 @@ if($fechaDes == $fechaHas){
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <form id="form" name="form" action="../controller/crearRangoBandaHorarioFinalizarAction.php?idbanda=<?php echo $GET['id']?>&fechaDes=<?php echo $fechaDes;?>&fechaHas=<?php echo $fechaHas;?>&tipoHora=1" role="form" method="get">
+                        <form id="form" name="form" action="../controller/crearRangoBandaHorarioFinalizarAction.php?idbanda=<?php echo $_GET['id']?>&fechaDes=<?php echo $fechaDes;?>&fechaHas=<?php echo $fechaHas;?>&tipoHora=1" role="form" method="get">
                             <input type="hidden" id="id" name="id" class="form-control" value="<?php echo $_GET['id']; ?>">
                             <div class="form-group">
                                 <label>Hora de Entrada:</label>

@@ -41,7 +41,7 @@ $(document).ready(function(){
                             <div class="form-group">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="optionHorarioPersonal" id="optionHorarioPersonal1" value="horarioPersonal.php" checked>Definir Horario de un Empleado.
+                                        <input type="radio" name="optionHorarioPersonal" id="optionHorarioPersonal1" value="crearHorarioPersonal.php" checked>Definir Horario de un Empleado.
                                     </label>
                                 </div>
                                 <div class="radio">
