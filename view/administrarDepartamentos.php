@@ -52,6 +52,18 @@ $(document).ready(function() {
     });
 });
 </script>
+<script type="text/javascript">
+    function administrativo(id){
+        var answer = confirm("¿Deseas modificar éste departamento?")
+        if (answer){
+           var admin = document.getElementById("administrativo"+id).checked;
+           cargaContent('configurarAdministrativo.php?id='+id+'&admin='+admin,'','contenido');
+        }
+        else{
+            alert("No se ha modificado el Departamento!")
+        }
+    }
+</script>
 <?php
 require_once("../db/conexiones.php");
 $consulta = new Conexion();
@@ -80,6 +92,7 @@ $ultimoRefresh = $consulta->Conectar("postgres","SELECT * FROM refrescamiento WH
                             <tr>
                                 <th>#</th>
                                 <th>Departamentos</th>
+                                <th>Administrativo</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -87,6 +100,7 @@ $ultimoRefresh = $consulta->Conectar("postgres","SELECT * FROM refrescamiento WH
                             <tr class="odd gradeX">
                                 <td><?php echo $departamento["deptid"];?></td>
                                 <td><?php echo $departamento["deptname"];?></td>
+                                <td><div class="checkbox"><label><input id="administrativo<?php echo $departamento["deptid"];?>" name="administrativo" type="checkbox" value="<?php echo $departamento["administrativo"];?>" <?php if($departamento['administrativo']=='true'){ echo 'checked';}else{ echo '';}?> onclick="administrativo(<?php echo $departamento["deptid"];?>);"></label></div></td>
                             </tr>
                             <?php } ?>
                         </tbody>

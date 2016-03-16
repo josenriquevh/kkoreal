@@ -88,8 +88,8 @@ $datosBanda = $consulta->Conectar("postgres","SELECT banda.*, tipo_horario.nombr
                             <?php foreach($datosBanda as $banda){?>
                             <tr class="odd gradeX">
                                 <td><?php echo $banda["id"];?></td>
-                                <td><?php echo $banda["hora_entrada"];?></td>
-                                <td><?php echo $banda["hora_salida"];?></td>
+                                <td><?php echo date("H:i", strtotime($banda["hora_entrada"]));?></td>
+                                <td><?php echo date("H:i", strtotime($banda["hora_salida"]));?></td>
                                 <td><?php echo $banda["nombre"];?></td>
                                 <td><a href="#" onclick="cargaContent('crearBandaHorario.php?id=<?php echo $banda['id']?>','','contenido');"><button type="button" class="btn btn-outline btn-primary btn-xs">Editar</button></a>&nbsp;&nbsp;<a href="#" onclick="cargaContent('configurarBandaHorario.php?id=<?php echo $banda['id']?>','','contenido');"><button type="button" class="btn btn-outline btn-primary btn-xs">Configurar</button></a></td>
                             </tr>

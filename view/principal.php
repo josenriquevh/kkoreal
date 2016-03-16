@@ -1,9 +1,6 @@
 <html>
 <head>
 <title>kkoReal</title>
-<?php
-//header('Content-Type: text/html; charset=UTF-8'); 
-?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" href="../images/Logo.ico"/>
 <!-- Bootstrap Core CSS -->
@@ -18,9 +15,11 @@
 <link href="../complements/sb-admin/bower_components/morrisjs/morris.css" rel="stylesheet">
 <!-- Custom Fonts -->
 <link href="../complements/sb-admin/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
 <script src="../complements/sb-admin/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="../complements/sb-admin/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../complements/nogray_js/1.2.0/ng_all.js"></script>
+<script type="text/javascript" src="../complements/nogray_js/1.2.0/ng_ui.js"></script>
+<script type="text/javascript" src="../complements/nogray_js/1.2.0/components/calendar.js"></script>
 <script>
 // Activate Carousel
 $("#myCarousel").carousel();

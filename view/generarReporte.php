@@ -59,17 +59,53 @@ $(document).ready(function(){
         },
         messages: {
             'fechaDesde': {
-                required: "La fecha desde es requerida",
+                required: "La fecha requerida",
             },
             'fechaHasta': {
-                required: "La fecha hasta es requerida",
+                required: "La fecha requerida",
             }
         },
         submitHandler: function(form){
-            var radio = $("input[name='optionHorarioPersonal']:checked").val(); 
-            $('#contenido').load(radio);
+            /*var radio = $("input[name='optionHorarioPersonal']:checked").val(); 
+            $('#contenido').load(radio);*/
         }
     });
+
+    ng.ready( function() {
+        var end_cal = new ng.Calendar({
+            input: 'fechaHasta'
+        });
+        var start_cal = new ng.Calendar({
+            input: 'fechaDesde',
+            start_date: 'last year',
+            display_date: new Date(),
+            my_end_cal: end_cal,
+            events: {
+                onSelect: function(dt){
+                    var st_dt = dt.clone();
+                    var dt_on_aval = {};
+                    dt_on_aval[st_dt.print('n_j_Y', 'en')] = function(id){
+                        ng.get(id).add_class('highlighted_date');
+                    };
+                    this.p.my_end_cal.set_date_on_available(dt_on_aval);
+                    var num_days = 0;
+                    st_dt = st_dt.from_string('today+'+num_days);
+                    var end_dt = this.p.my_end_cal.get_selected_date();
+                    if ((ng.defined(end_dt)) && (end_dt.getTime() < st_dt.getTime())){
+                        this.p.my_end_cal.clear_selection();
+                    }
+                    this.p.my_end_cal.set_start_date(st_dt);
+                    this.p.my_end_cal.open();
+                },
+                onUnSelect: function(dt){
+                    this.p.my_end_cal.set_date_on_available({});
+                    var st_dt = this.get_start_date().clone();
+                    this.p.my_end_cal.set_start_date(st_dt);
+                }
+            }
+        });
+    });
+
 });
 </script>
 <?php
@@ -96,9 +132,15 @@ $empleados = $consulta->Conectar("postgres","SELECT * FROM userinfo ORDER BY use
                 <!-- /.panel-heading -->
                 <div class="dataTable_wrapper">
                     <form name="busquedas" id="busquedas">
-                    <table border="0" width="100%" cellspacing="0" cellpadding="5">
-                        <tr>
-                            <td>
+                        <div class="form-group">
+                            <label for="fechaDesde"><strong>Desde:</strong></label><br>
+                            <input type="text" id="fechaDesde" name="fechaDesde" value=""/>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechaHasta"><strong>Hasta:</strong></label><br>
+                            <input type="text" id="fechaHasta" name="fechaHasta" value=""/>
+                        </div>
+                        <div class="form-group">
                             <label for="departamento"><strong>Departamento:</strong></label><br>
                             <div id="dep">
                                 <select name="departamento" id="departamento" class="chosen-select" style="width:250px">
@@ -108,8 +150,8 @@ $empleados = $consulta->Conectar("postgres","SELECT * FROM userinfo ORDER BY use
                                     <?php } ?>
                                 </select>
                             </div>
-                            </td>
-                            <td>
+                        </div>
+                        <div class="form-group">
                             <label for="empleado"><strong>Empleado:</strong></label><br>
                             <div id="emp">
                                 <select name="empleado" id="empleado" class="chosen-select" style="width:250px">
@@ -119,17 +161,8 @@ $empleados = $consulta->Conectar("postgres","SELECT * FROM userinfo ORDER BY use
                                     <?php } ?>                                    
                                 </select>
                             </div>
-                            </td>
-                            <td>
-                                <label for="fechaDesde"><strong>Fecha Desde:</strong></label><br>
-                                <input type="text" id="fechaDesde" name="fechaDesde" value=""/>
-                            </td>
-                            <td>
-                                <label for="fechaHasta"><strong>Fecha Hasta:</strong></label><br>
-                                <input type="text" id="fechaHasta" name="fechaHasta" value=""/>
-                            </td>
-                        </tr>
-                    </table>
+                        </div>
+                    </form>
                 </div>
                 <!-- /.table-responsive -->
                 <div class="well">

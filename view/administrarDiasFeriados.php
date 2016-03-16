@@ -52,6 +52,17 @@ $(document).ready(function() {
     });
 });
 </script>
+<script type="text/javascript">
+    function eliminarDF(id){
+        var answer = confirm("¿Deseas Eliminar este día feriado?")
+        if (answer){
+           cargaContent('eliminarDiaFeriado.php?id='+id,'','contenido');
+        }
+        else{
+            alert("No se ha eliminado el  día feriado!")
+        }
+    }
+</script>
 <?php
 require_once("../db/conexiones.php");
 $consulta = new Conexion();
@@ -89,9 +100,9 @@ $diasFeriados = $consulta->Conectar("postgres","SELECT * FROM feriado ORDER BY f
                             <tr class="odd gradeX">
                                 <td><?php echo $feriados["id"];?></td>
                                 <td><?php echo $feriados["descripcion"];?></td>
-                                <td><?php echo $feriados["desde"];?></td>
-                                <td><?php echo $feriados["hasta"];?></td>
-                                <td><a href="#" onclick="cargaContent('crearDiasFeriados.php?id=<?php echo $feriados['id']?>','','contenido');"><button type="button" class="btn btn-outline btn-primary btn-xs">Editar</button></a>&nbsp;&nbsp;<a href="#" onclick="cargaContent('crearDiasFeriados.php?id=<?php echo $feriados['id']?>','','contenido');"><button type="button" class="btn btn-outline btn-primary btn-xs">Eliminar</button></a></td>
+                                <td><?php echo date("j/m/Y", strtotime($feriados["desde"]));?></td>
+                                <td><?php echo date("j/m/Y", strtotime($feriados["hasta"]));?></td>
+                                <td><a href="#" onclick="cargaContent('crearDiasFeriados.php?id=<?php echo $feriados['id']?>','','contenido');"><button type="button" class="btn btn-outline btn-primary btn-xs">Editar</button></a>&nbsp;&nbsp;<a href="#" onclick="eliminarDF(<?php echo $feriados['id'];?>);"><button type="button" class="btn btn-outline btn-primary btn-xs">Eliminar</button></a></td>
                             </tr>
                             <?php }?>
                         </tbody>

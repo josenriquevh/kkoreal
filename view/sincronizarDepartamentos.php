@@ -2,6 +2,8 @@
 $('#divSincronizar').show();
 </script>
 <?php
+ini_set('max_execute_time', 0);
+set_time_limit(600);
 require_once("../db/conexiones.php");
 $consulta = new Conexion();
 $datosDepartamentos = $consulta->Conectar("access","SELECT * FROM Dept ORDER BY Deptid ASC");
@@ -17,9 +19,9 @@ if (!$datosDepartamentos)
 		$deptid = $departamento['Deptid'];
 		$supDeptid = $departamento['SupDeptid'];
 		if(!array_key_exists($key, $datosDepartamentosPostgres)){
-			$sqlInsert = $consulta->Conectar("postgres","INSERT INTO dept VALUES (".$deptid.", '".utf8_encode($nombre_dept)."', ".$supDeptid.")");
+			$sqlInsert = $consulta->Conectar("postgres","INSERT INTO dept VALUES (".$deptid.", '".utf8_encode(trim($nombre_dept))."', ".$supDeptid.")");
 		}else{
-			$sqlUpdate = $consulta->Conectar("postgres","UPDATE dept SET deptname='".utf8_encode($nombre_dept)."', supdeptid=".$supDeptid." WHERE deptid=".$deptid."");
+			$sqlUpdate = $consulta->Conectar("postgres","UPDATE dept SET deptname='".utf8_encode(trim($nombre_dept))."', supdeptid=".$supDeptid." WHERE deptid=".$deptid."");
 		}
 	}
 	$time = time();

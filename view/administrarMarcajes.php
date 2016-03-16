@@ -72,7 +72,7 @@ $datosMarcajes = $consulta->Conectar("postgres","SELECT checkinout.logid, checki
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Marcaje de Empleados
+                Marcaje de la Fecha <?php echo date("j/m/Y", strtotime($ultimaFechaMarcaje));?>
             </div>
     <!-- /.panel-heading -->
     <div class="panel-body">

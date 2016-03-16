@@ -12,6 +12,7 @@ $(document).ready(function(){
     $("#form").validate({
         rules: {
             'horaHasta': {
+                //max: ['#salida'],
                 required: true,
             },
             'tipoHora': {
@@ -20,6 +21,7 @@ $(document).ready(function(){
         },
         messages: {
             'horaHasta': {
+                //max: 'La Hora Hasta no puede ser mayor a la Hora Hasta de rango de banda',
                 required: "La Hora Hasta es requerida",
             },
             'tipoHora': {
@@ -61,7 +63,7 @@ if($rangoB){
 }else{
     $horaD=$datosBanda[0]['hora_entrada'];
 }
-if($_GET['idRango']!==0)
+if($_GET['idRango']<>0)
 {
     $rangoBanda = $consulta->Conectar("postgres","SELECT * FROM rango_banda WHERE id=".$_GET['idRango']);
     $horaD=$rangoBanda[0]['hora_desde'];
@@ -86,14 +88,14 @@ if($_GET['idRango']!==0)
                             <input type="hidden" id="id" name="id" class="form-control" value="<?php echo $_GET['id']; ?>">
                             <input type="hidden" id="idRango" name="idRango" class="form-control" value="<?php echo $_GET['idRango']; ?>">
                             <input type="hidden" id="entrada" name="entrada" class="form-control" value="<?php echo $datosBanda[0]['hora_entrada']; ?>">
-                            <input type="hidden" id="salida" name="salida" class="form-control" value="<?php echo $datosBanda[0]['hora_salida']; ?>">
+                            <input type="hidden" id="salida" name="salida" class="form-control" value="<?php echo date("H:i", strtotime($datosBanda[0]['hora_salida'])); ?>">
                             <div class="form-group">
                                 <label>Hora de Entrada:</label>
-                                <?php echo $datosBanda[0]['hora_entrada']; ?>
+                                <?php echo date("H:i", strtotime($datosBanda[0]['hora_entrada'])); ?>
                             </div>
                             <div class="form-group">
                                 <label>Hora de Salida:</label>
-                                <?php echo $datosBanda[0]['hora_salida']; ?>
+                                <?php echo date("H:i", strtotime($datosBanda[0]['hora_salida'])); ?>
                             </div>
                             <div class="form-group">
                                 <label>Tipo de Horario:</label>                                    
@@ -102,11 +104,11 @@ if($_GET['idRango']!==0)
                             </div>
                             <div class="form-group">
                                 <label>Hora Desde:</label>
-                                <input id="horaDesde" name="horaDesde" class="form-control" value="<?php echo $horaD; ?>" readonly style="width:250px">
+                                <input id="horaDesde" name="horaDesde" class="form-control" value="<?php echo date("H:i", strtotime($horaD)); ?>" readonly style="width:250px">
                             </div>
                             <div class="form-group">
                                 <label>Hora Hasta:</label>
-                                <input id="horaHasta" name="horaHasta" class="form-control timepickr" placeholder="Ingrese la Hora Hasta" value="<?php echo $hs=isset($rangoBanda[0]['hora_hasta'])? $rangoBanda[0]['hora_hasta'] : ''; ?>" readonly style="width:250px">
+                                <input id="horaHasta" name="horaHasta" class="form-control timepickr" placeholder="Ingrese la Hora Hasta" value="<?php echo $hs=isset($rangoBanda[0]['hora_hasta'])? date("H:i", strtotime($rangoBanda[0]['hora_hasta'])) : ''; ?>" readonly style="width:250px">
                             </div>
                             <div class="form-group">
                                 <label>Tipo de Hora:</label>

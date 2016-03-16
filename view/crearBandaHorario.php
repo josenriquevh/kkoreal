@@ -52,8 +52,8 @@ $(document).ready(function(){
 </script>
 <script type="text/javascript">
 $('.timepickr').timepickr({
-convention: 12,
-format: '{h}:{m} {suffix}',
+convention: 24,
+format: '{h}:{m}',
 hoverIntent: false
 });
 </script>
@@ -85,11 +85,11 @@ if($_GET['id']!==0)
                             <input type="hidden" id="id" name="id" class="form-control" value="<?php echo $_GET['id']; ?>">
                             <div class="form-group">
                                 <label>Hora de Entrada:</label>
-                                <input id="horaEntrada" name="horaEntrada" class="form-control timepickr" placeholder="Ingrese la Hora de Entrada" value="<?php echo $he=isset($banda[0]['hora_entrada'])? $banda[0]['hora_entrada'] : ''; ?>" readonly style="width:250px">
+                                <input id="horaEntrada" name="horaEntrada" class="form-control timepickr" placeholder="Ingrese la Hora de Entrada" value="<?php echo $he=isset($banda[0]['hora_entrada'])? date("H:i", strtotime($banda[0]['hora_entrada'])) : ''; ?>" readonly style="width:250px">
                             </div>
                             <div class="form-group">
                                 <label>Hora de Salida:</label>
-                                <input id="horaSalida" name="horaSalida" class="form-control timepickr" placeholder="Ingrese la hora de Salida" value="<?php echo $hs=isset($banda[0]['hora_salida'])? $banda[0]['hora_salida'] : ''; ?>" readonly style="width:250px">
+                                <input id="horaSalida" name="horaSalida" class="form-control timepickr" placeholder="Ingrese la hora de Salida" value="<?php echo $hs=isset($banda[0]['hora_salida'])? date("H:i", strtotime($banda[0]['hora_salida'])) : ''; ?>" readonly style="width:250px">
                             </div>
                             <div class="form-group">
                                 <label>Tipo de Horario:</label>

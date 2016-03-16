@@ -1,6 +1,6 @@
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#form').submit(function() {
+    $('#form').submit(function(){
         $.ajax({
             type: 'GET',
             url: $(this).attr('action'),
@@ -9,7 +9,7 @@ $(document).ready(function() {
                 var datos = data.split('!');
                 alert(datos[0]);
                 setTimeout( function(){
-                    $('#contenido').load("configurarBandaHorario.php?id="+datos[1]);
+                    $('#contenido').load("administrarBandasHorarios.php");
                 }, 1000);
             }
         })        
@@ -24,15 +24,15 @@ $datosBanda = $consulta->Conectar("postgres","SELECT banda.*, tipo_horario.nombr
 $datosRangoBanda = $consulta->Conectar("postgres","SELECT rango_banda.*, tipo_hora.nombre FROM rango_banda INNER JOIN tipo_hora ON rango_banda.tipo_hora_id=tipo_hora.id WHERE rango_banda.banda_id=".$_GET['id']." ORDER BY rango_banda.id ASC");
 if($datosRangoBanda){
     $rangoBanda = $consulta->Conectar("postgres","SELECT * FROM rango_banda WHERE banda_id=".$_GET['id']." ORDER BY id DESC LIMIT 1");
-    $fechaDes=$rangoBanda[0]['hora_hasta'];
-    $fechaHas=$datosBanda[0]['hora_salida'];
+    $horaDes=date("H:i", strtotime($rangoBanda[0]['hora_hasta']));
+    $horaHas=date("H:i", strtotime($datosBanda[0]['hora_salida']));
 }else{
-    $fechaDes=$datosBanda[0]['hora_entrada'];
-    $fechaHas=$datosBanda[0]['hora_salida'];
+    $horaDes=date("H:i", strtotime($datosBanda[0]['hora_entrada']));
+    $horaHas=date("H:i", strtotime($datosBanda[0]['hora_salida']));
 }
-if($fechaDes == $fechaHas){
-    $fechaDes=0;
-    $fechaHas=0;
+if($horaDes == $horaHas){
+    $horaDes=0;
+    $horaHas=0;
 }
 ?>
 <div class="row">
@@ -50,15 +50,15 @@ if($fechaDes == $fechaHas){
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <form id="form" name="form" action="../controller/crearRangoBandaHorarioFinalizarAction.php?idbanda=<?php echo $_GET['id']?>&fechaDes=<?php echo $fechaDes;?>&fechaHas=<?php echo $fechaHas;?>&tipoHora=1" role="form" method="get">
+                        <form id="form" name="form" action="../controller/crearRangoBandaHorarioFinalizarAction.php?idbanda=<?php echo $_GET['id']?>&horaDesde=<?php echo $horaDes;?>&horaHasta=<?php echo $horaHas;?>&tipoHora=1" role="form" method="get">
                             <input type="hidden" id="id" name="id" class="form-control" value="<?php echo $_GET['id']; ?>">
                             <div class="form-group">
                                 <label>Hora de Entrada:</label>
-                                <?php echo $datosBanda[0]['hora_entrada']; ?>
+                                <?php echo date("H:i", strtotime($datosBanda[0]['hora_entrada'])); ?>
                             </div>
                             <div class="form-group">
                                 <label>Hora de Salida:</label>
-                                <?php echo $datosBanda[0]['hora_salida']; ?>
+                                <?php echo date("H:i", strtotime($datosBanda[0]['hora_salida'])); ?>
                             </div>
                             <div class="form-group">
                                 <label>Tipo de Horario:</label>                                    
@@ -76,8 +76,8 @@ if($fechaDes == $fechaHas){
                                     ?>
                                     <tr class="gradeA odd" role="row">
                                         <td class="sorting_1"><?php echo $rangoBanda["id"];?></td>
-                                        <td><?php echo $rangoBanda["hora_desde"];?></td>
-                                        <td><?php echo $rangoBanda["hora_hasta"];?></td>
+                                        <td><?php echo date("H:i", strtotime($rangoBanda["hora_desde"]));?></td>
+                                        <td><?php echo date("H:i", strtotime($rangoBanda["hora_hasta"]));?></td>
                                         <td><?php echo $rangoBanda["nombre"];?></td>
                                         <td><a href="#" onclick="cargaContent('crearRangoBandaHorario.php?idRango=<?php echo $rangoBanda["id"];?>&id=<?php echo $_GET['id'];?>','','contenido');"><button type="button" class="btn btn-outline btn-primary btn-xs">Editar</button></a></td>
                                     </tr>

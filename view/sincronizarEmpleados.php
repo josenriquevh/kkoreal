@@ -1,4 +1,6 @@
 <?php
+ini_set('max_execute_time', 0);
+set_time_limit(600);
 require_once("../db/conexiones.php");
 $consulta = new Conexion();
 $datosEmpleados = $consulta->Conectar("access","SELECT * FROM Userinfo ORDER BY Userid ASC");
@@ -16,9 +18,9 @@ if (!$datosEmpleados)
 		$employdate = $empleados['EmployDate'];
 		$duty = $empleados['Duty'];
 		if(!array_key_exists($key, $datosEmpleadosPostgres)){
-			$sqlInsert = $consulta->Conectar("postgres","INSERT INTO userinfo VALUES (".$userid.", '".utf8_encode($name)."', ".$deptid.", '".$employdate."', '".utf8_encode($duty)."')");
+			$sqlInsert = $consulta->Conectar("postgres","INSERT INTO userinfo VALUES (".$userid.", '".utf8_encode(trim($name))."', ".$deptid.", '".$employdate."', '".utf8_encode(trim($duty))."')");
 		}else{
-			$sqlUpdate = $consulta->Conectar("postgres","UPDATE userinfo SET name='".utf8_encode($name)."', deptid=".$deptid.", employdate='".$employdate."', duty='".utf8_encode($duty)."' WHERE userid=".$userid."");
+			$sqlUpdate = $consulta->Conectar("postgres","UPDATE userinfo SET name='".utf8_encode(trim($name))."', deptid=".$deptid.", employdate='".$employdate."', duty='".utf8_encode(trim($duty))."' WHERE userid=".$userid."");
 		}
 	}
 	$time = time();
