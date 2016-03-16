@@ -206,7 +206,7 @@ $.ui.timepickr.prototype.options = {
 	left:      0,
 	animSpeed: 0,
 	trigger:   'click',
-	convention:  12, // 24, 12
+	convention:  24, // 24, 12
 	format:    '{h}:{m} {suffix}',
 	handle:      false,
 	prefix:      ['00-11', '12-23'],
