@@ -1,0 +1,71 @@
+INSTALAR:
+- Visual Studio 2012
+- Wampserver
+- postgresql-9.4.5-1-windows. Usuario: postgres, clave: 1234
+- pgadmin3-1.20.0.
+- psqlodbc-setup
+
+ACTIVACION DE PDO_PGSQL
+
+- Agregar la siguiente línea en C:/wamp/bin/apache/apache2.4.9/conf/httpd.conf
+LoadFile "C:/Program Files/PostgreSQL/9.4/bin/libpq.dll"
+
+- Descomentar las siguientes líneas en el archivo C:/wamp/bin/apache/apache2.4.9/bin/php.ini
+extension=php_pdo_odbc.dll
+extension=php_pdo_pgsql.dll
+extension=php_pgsql.dll
+NOTA: Asegurarse de tener estos dll en el directorio C:/wamp/bin/php/php5.5.12/ext
+
+- Reiniciar wampserver
+
+- Podemos probar con http://localhost/kkoreal/phpinfo.php y se verifica que el PDO_ODBC y el PDO_PGSQL estén enabled.
+
+CONFIGURACIÓN DE ODBC ACCESS Y POSTGRES
+- En Herramientas Administrativas, escoger Orígenes de datos ODBC.
+- Se agrega cada origen de datos en la pestaña de DNS de sistema.
+- Agregamos primero la del controlador de Access:
+	- Seleccionamos el controlador: Microsoft Access Driver (*.mdb)
+	- Nombre del origen de datos: anviz
+	- Descripción: anviz
+	- Base de datos: Seleccionamos la BD de Access (C:/wamp/www/kkoreal/db/anviz.mdb)
+- Procedemos con el controlador de Postgres
+	- Seleccionamos el controlador PostgreSQL Unicode
+	- Data Source: anvizPostgres
+	- Database: anviz
+	- Server: localhost
+	- User Name: postgres
+	- Description: anviz
+	- Port: 5432
+	- Password: 1234
+- Finalmente agregamos con el controlador PostgreSQL ANSI
+	- Seleccionamos el controlador PostgreSQL ANSI
+	- Data Source: PostgreSQL30
+	- Database: anviz
+	- Server: localhost
+	- User Name: postgres
+	- Description: anviz
+	- Port: 5432
+	- Password: 1234
+
+SERVIDOR EN PGADMIN
+- Name: LOCAL
+- Host: localhost
+- Port: 5432
+- Maintenance DB: postgres
+- Username: postgres
+
+GITHUB
+
+- Clonar el proyecto:
+git clone https://github.com/josenriquevh/kkoreal.git
+
+- Revisar status
+git status
+
+- Subir cambios:
+git add files
+git commit -m "Cualquier mensaje"
+git push origin master
+
+- Actualizar cambios
+git pull
